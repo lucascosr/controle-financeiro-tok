@@ -25,7 +25,8 @@ import {
   Sun,
   Moon,
   LayoutGrid,
-  Target
+  Target,
+  Settings
 } from 'lucide-react';
 import { Transaction, ContextType, User, Goal } from './types';
 import { INITIAL_TRANSACTIONS } from './constants';
@@ -35,6 +36,7 @@ import { AIAdvisor } from './components/AIAdvisor';
 import { LoginScreen } from './components/LoginScreen';
 import { LandingPage } from './components/LandingPage';
 import { FinancialPlanning } from './components/FinancialPlanning';
+import { ProfileSettings } from './components/ProfileSettings';
 
 // Icon Mapping
 const getCategoryIcon = (category: string) => {
@@ -84,6 +86,7 @@ function App() {
   const [goals, setGoals] = useState<Goal[]>([]);
   const [currentContext, setCurrentContext] = useState<ContextType>('pf');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [filter, setFilter] = useState('');
   const [greeting, setGreeting] = useState('');
 
@@ -175,6 +178,28 @@ function App() {
     setUser(loggedInUser);
     localStorage.setItem('controletok_user', JSON.stringify(loggedInUser));
     setViewState('app');
+  };
+
+  const handleUpdateUser = (updatedUser: User) => {
+    if (!user) return;
+
+    // If email changed, we need to migrate data or just switch keys
+    // For simplicity, we will move the data to the new key if email changes
+    if (user.email !== updatedUser.email) {
+        const oldTxKey = `controletok_transactions_${user.email}`;
+        const oldGoalsKey = `controletok_goals_${user.email}`;
+        const newTxKey = `controletok_transactions_${updatedUser.email}`;
+        const newGoalsKey = `controletok_goals_${updatedUser.email}`;
+
+        const currentTx = localStorage.getItem(oldTxKey);
+        const currentGoals = localStorage.getItem(oldGoalsKey);
+
+        if (currentTx) localStorage.setItem(newTxKey, currentTx);
+        if (currentGoals) localStorage.setItem(newGoalsKey, currentGoals);
+    }
+
+    setUser(updatedUser);
+    localStorage.setItem('controletok_user', JSON.stringify(updatedUser));
   };
 
   const handleLogout = () => {
@@ -276,14 +301,20 @@ function App() {
             <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-8">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                      <p className="text-slate-500 dark:text-slate-400 font-medium text-sm">{greeting}, <span className="font-bold text-slate-700 dark:text-slate-200 capitalize">{user?.name}</span>!</p>
+                      <p className="text-slate-500 dark:text-slate-400 font-medium text-sm">{greeting}, <span className="font-bold text-slate-700 dark:text-slate-200 capitalize">{user.name}</span>!</p>
                   </div>
                   <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-violet-600 rounded-full flex items-center justify-center text-white shadow-lg shadow-violet-600/30">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-                          </svg>
-                      </div>
+                      {/* User Avatar (Clickable for Settings) */}
+                      <button 
+                        onClick={() => setIsProfileOpen(true)}
+                        className="w-10 h-10 rounded-full bg-violet-600 flex items-center justify-center text-white shadow-lg shadow-violet-600/30 overflow-hidden hover:ring-4 hover:ring-violet-200 dark:hover:ring-violet-900 transition-all"
+                      >
+                          {user.photo ? (
+                             <img src={user.photo} alt={user.name} className="w-full h-full object-cover" />
+                          ) : (
+                             <UserIcon size={20} />
+                          )}
+                      </button>
                       <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
                           Controle <span className={currentContext === 'pf' ? "text-violet-600" : "text-blue-600"}>Tok</span>
                       </h1>
@@ -330,6 +361,14 @@ function App() {
                     Nova Transação
                 </button>
               )}
+
+              <button 
+                  onClick={() => setIsProfileOpen(true)}
+                  title="Configurações"
+                  className="p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 text-slate-400 hover:text-violet-600 hover:bg-violet-50 dark:hover:bg-slate-800 transition-all shadow-sm"
+              >
+                  <Settings size={20} />
+              </button>
 
               <button 
                   onClick={handleLogout}
@@ -529,6 +568,13 @@ function App() {
         onClose={() => setIsModalOpen(false)} 
         onSave={addTransaction} 
         context={currentContext}
+      />
+
+      <ProfileSettings 
+        isOpen={isProfileOpen}
+        onClose={() => setIsProfileOpen(false)}
+        user={user}
+        onUpdateUser={handleUpdateUser}
       />
     </div>
   );

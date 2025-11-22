@@ -4,6 +4,7 @@ export type ContextType = 'pf' | 'pj';
 export interface User {
   name: string;
   email: string;
+  photo?: string;
 }
 
 export interface Transaction {
