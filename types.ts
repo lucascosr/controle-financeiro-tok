@@ -16,6 +16,16 @@ export interface Transaction {
   context: ContextType;
 }
 
+export interface Goal {
+  id: string;
+  title: string;
+  targetAmount: number;
+  currentAmount: number;
+  deadline: string;
+  icon: string;
+  color: string;
+}
+
 export interface ChartDataPoint {
   name: string;
   value: number;

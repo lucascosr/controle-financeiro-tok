@@ -58,16 +58,16 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({ isOpen, onCl
       ></div>
 
       {/* Modal Content */}
-      <div className="relative bg-white w-full max-w-lg rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden transform transition-all animate-fade-in-up flex flex-col max-h-[90vh]">
+      <div className="relative bg-white dark:bg-slate-900 w-full max-w-lg rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden transform transition-all animate-fade-in-up flex flex-col max-h-[90vh]">
         
-        <div className="px-8 py-6 border-b border-slate-50 flex justify-between items-center bg-white sticky top-0 z-10">
+        <div className="px-8 py-6 border-b border-slate-50 dark:border-slate-800 flex justify-between items-center bg-white dark:bg-slate-900 sticky top-0 z-10">
           <div>
-              <h2 className="text-2xl font-bold text-slate-800">
-                Nova Transação <span className="text-violet-600 text-sm align-middle bg-violet-50 px-2 py-1 rounded-lg ml-2 uppercase">{context}</span>
+              <h2 className="text-2xl font-bold text-slate-800 dark:text-white">
+                Nova Transação <span className="text-violet-600 text-sm align-middle bg-violet-50 dark:bg-violet-900/30 px-2 py-1 rounded-lg ml-2 uppercase">{context}</span>
               </h2>
               <p className="text-slate-400 text-sm">Preencha os detalhes abaixo</p>
           </div>
-          <button onClick={onClose} className="bg-slate-50 text-slate-400 hover:text-slate-600 hover:bg-slate-100 p-2 rounded-full transition-all">
+          <button onClick={onClose} className="bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 p-2 rounded-full transition-all">
             <X size={24} />
           </button>
         </div>
@@ -76,14 +76,14 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({ isOpen, onCl
             <form onSubmit={handleSubmit} className="space-y-6">
             
             {/* Type Toggle */}
-            <div className="p-1 bg-slate-100 rounded-2xl flex relative">
+            <div className="p-1 bg-slate-100 dark:bg-slate-800 rounded-2xl flex relative">
                 <div 
-                    className={`absolute top-1 bottom-1 w-[calc(50%-4px)] bg-white rounded-xl shadow-sm transition-all duration-300 ease-spring ${type === 'income' ? 'left-1' : 'left-[calc(50%+4px)]'}`}
+                    className={`absolute top-1 bottom-1 w-[calc(50%-4px)] bg-white dark:bg-slate-700 rounded-xl shadow-sm transition-all duration-300 ease-spring ${type === 'income' ? 'left-1' : 'left-[calc(50%+4px)]'}`}
                 ></div>
                 <button
                 type="button"
                 className={`flex-1 py-3 rounded-xl text-sm font-bold relative z-10 transition-colors ${
-                    type === 'income' ? 'text-emerald-600' : 'text-slate-500 hover:text-slate-700'
+                    type === 'income' ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
                 }`}
                 onClick={() => { setType('income'); }}
                 >
@@ -92,7 +92,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({ isOpen, onCl
                 <button
                 type="button"
                 className={`flex-1 py-3 rounded-xl text-sm font-bold relative z-10 transition-colors ${
-                    type === 'expense' ? 'text-rose-500' : 'text-slate-500 hover:text-slate-700'
+                    type === 'expense' ? 'text-rose-500 dark:text-rose-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
                 }`}
                 onClick={() => { setType('expense'); }}
                 >
@@ -104,7 +104,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({ isOpen, onCl
             <div>
                 <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 block">Valor</label>
                 <div className="relative group">
-                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-violet-600 transition-colors">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-violet-600 dark:group-focus-within:text-violet-400 transition-colors">
                     <DollarSign size={20} />
                 </div>
                 <input
@@ -113,7 +113,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({ isOpen, onCl
                     required
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
-                    className="w-full pl-12 pr-4 py-4 bg-slate-50 rounded-2xl border-2 border-transparent focus:bg-white focus:border-violet-100 focus:ring-4 focus:ring-violet-100/50 outline-none transition-all text-xl font-semibold text-slate-800 placeholder-slate-300"
+                    className="w-full pl-12 pr-4 py-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border-2 border-transparent focus:bg-white dark:focus:bg-slate-900 focus:border-violet-100 dark:focus:border-violet-900 focus:ring-4 focus:ring-violet-100/50 dark:focus:ring-violet-900/30 outline-none transition-all text-xl font-semibold text-slate-800 dark:text-white placeholder-slate-300 dark:placeholder-slate-600"
                     placeholder="0.00"
                 />
                 </div>
@@ -123,7 +123,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({ isOpen, onCl
             <div>
                 <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 block">Descrição</label>
                 <div className="relative group">
-                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-violet-600 transition-colors">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-violet-600 dark:group-focus-within:text-violet-400 transition-colors">
                     <Type size={20} />
                 </div>
                 <input
@@ -131,7 +131,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({ isOpen, onCl
                     required
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    className="w-full pl-12 pr-4 py-4 bg-slate-50 rounded-2xl border-2 border-transparent focus:bg-white focus:border-violet-100 focus:ring-4 focus:ring-violet-100/50 outline-none transition-all font-medium text-slate-800 placeholder-slate-300"
+                    className="w-full pl-12 pr-4 py-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border-2 border-transparent focus:bg-white dark:focus:bg-slate-900 focus:border-violet-100 dark:focus:border-violet-900 focus:ring-4 focus:ring-violet-100/50 dark:focus:ring-violet-900/30 outline-none transition-all font-medium text-slate-800 dark:text-white placeholder-slate-300 dark:placeholder-slate-600"
                     placeholder={context === 'pj' ? "Ex: Nota Fiscal 123" : "Ex: Compras do mês"}
                 />
                 </div>
@@ -142,14 +142,14 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({ isOpen, onCl
                 <div>
                     <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 block">Categoria</label>
                     <div className="relative group">
-                        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-violet-600 transition-colors">
+                        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-violet-600 dark:group-focus-within:text-violet-400 transition-colors">
                             <Tag size={20} />
                         </div>
                         <select
                         required
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
-                        className="w-full pl-12 pr-4 py-4 bg-slate-50 rounded-2xl border-2 border-transparent focus:bg-white focus:border-violet-100 focus:ring-4 focus:ring-violet-100/50 outline-none transition-all font-medium text-slate-800 appearance-none cursor-pointer"
+                        className="w-full pl-12 pr-4 py-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border-2 border-transparent focus:bg-white dark:focus:bg-slate-900 focus:border-violet-100 dark:focus:border-violet-900 focus:ring-4 focus:ring-violet-100/50 dark:focus:ring-violet-900/30 outline-none transition-all font-medium text-slate-800 dark:text-white appearance-none cursor-pointer"
                         >
                         <option value="" disabled>Selecionar</option>
                         {currentCategories.map((cat) => (
@@ -165,7 +165,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({ isOpen, onCl
                 <div>
                     <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 block">Data</label>
                     <div className="relative group">
-                        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-violet-600 transition-colors">
+                        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-violet-600 dark:group-focus-within:text-violet-400 transition-colors">
                             <Calendar size={20} />
                         </div>
                         <input
@@ -173,7 +173,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({ isOpen, onCl
                         required
                         value={date}
                         onChange={(e) => setDate(e.target.value)}
-                        className="w-full pl-12 pr-4 py-4 bg-slate-50 rounded-2xl border-2 border-transparent focus:bg-white focus:border-violet-100 focus:ring-4 focus:ring-violet-100/50 outline-none transition-all font-medium text-slate-800"
+                        className="w-full pl-12 pr-4 py-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border-2 border-transparent focus:bg-white dark:focus:bg-slate-900 focus:border-violet-100 dark:focus:border-violet-900 focus:ring-4 focus:ring-violet-100/50 dark:focus:ring-violet-900/30 outline-none transition-all font-medium text-slate-800 dark:text-white dark:[color-scheme:dark]"
                         />
                     </div>
                 </div>

@@ -6,9 +6,10 @@ import { getFinancialAdvice } from '../services/geminiService';
 interface AIAdvisorProps {
   transactions: Transaction[];
   context: ContextType;
+  theme: 'light' | 'dark';
 }
 
-export const AIAdvisor: React.FC<AIAdvisorProps> = ({ transactions, context }) => {
+export const AIAdvisor: React.FC<AIAdvisorProps> = ({ transactions, context, theme }) => {
   const [advice, setAdvice] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -35,22 +36,22 @@ export const AIAdvisor: React.FC<AIAdvisorProps> = ({ transactions, context }) =
             <div className="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-purple-600 rounded-3xl blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
             <button
             onClick={handleGetAdvice}
-            className="relative w-full bg-white/90 backdrop-blur-xl border border-white p-1 rounded-3xl shadow-xl flex items-center p-4 transition-all hover:scale-[1.01]"
+            className="relative w-full bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border border-white dark:border-slate-700 p-1 rounded-3xl shadow-xl flex items-center p-4 transition-all hover:scale-[1.01]"
             >
             <div className="flex-shrink-0 p-3 bg-gradient-to-br from-violet-600 to-fuchsia-600 rounded-2xl text-white shadow-lg">
                 <Sparkles size={24} className="animate-pulse" />
             </div>
             <div className="ml-4 text-left flex-1">
-                <h3 className="font-bold text-lg text-slate-800">Consultor Tok AI <span className="text-xs font-normal opacity-70 uppercase ml-1">({context})</span></h3>
-                <p className="text-slate-500 text-sm">Toque para gerar uma análise financeira inteligente.</p>
+                <h3 className="font-bold text-lg text-slate-800 dark:text-white">Consultor Tok AI <span className="text-xs font-normal opacity-70 uppercase ml-1">({context})</span></h3>
+                <p className="text-slate-500 dark:text-slate-400 text-sm">Toque para gerar uma análise financeira inteligente.</p>
             </div>
-            <div className="bg-slate-50 p-2 rounded-full text-slate-400 group-hover:text-violet-600 group-hover:bg-violet-50 transition-colors">
+            <div className="bg-slate-50 dark:bg-slate-800 p-2 rounded-full text-slate-400 group-hover:text-violet-600 dark:group-hover:text-violet-400 group-hover:bg-violet-50 dark:group-hover:bg-slate-700 transition-colors">
                 <ChevronRight size={20} />
             </div>
             </button>
         </div>
       ) : (
-        <div className="bg-white rounded-3xl shadow-2xl shadow-violet-500/10 border border-violet-100 overflow-hidden animate-fade-in-up">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl shadow-violet-500/10 border border-violet-100 dark:border-slate-800 overflow-hidden animate-fade-in-up">
           <div className="bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-600 p-6 flex justify-between items-start text-white relative overflow-hidden">
              {/* Decorative circles */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full -mr-10 -mt-10 blur-xl"></div>
@@ -73,19 +74,19 @@ export const AIAdvisor: React.FC<AIAdvisorProps> = ({ transactions, context }) =
             </button>
           </div>
           
-          <div className="p-8 min-h-[200px] bg-gradient-to-b from-white to-slate-50">
+          <div className="p-8 min-h-[200px] bg-gradient-to-b from-white to-slate-50 dark:from-slate-900 dark:to-slate-950">
             {isLoading ? (
               <div className="flex flex-col items-center justify-center py-12 gap-4">
                 <div className="relative">
                     <div className="absolute inset-0 bg-violet-500 rounded-full blur-lg opacity-20 animate-pulse"></div>
-                    <Loader2 size={40} className="text-violet-600 animate-spin relative z-10" />
+                    <Loader2 size={40} className="text-violet-600 dark:text-violet-400 animate-spin relative z-10" />
                 </div>
-                <p className="text-sm font-medium text-slate-500 animate-pulse">Processando seus dados...</p>
+                <p className="text-sm font-medium text-slate-500 dark:text-slate-400 animate-pulse">Processando seus dados...</p>
               </div>
             ) : (
-              <div className="prose prose-violet prose-sm max-w-none">
+              <div className="prose prose-violet dark:prose-invert prose-sm max-w-none">
                  <div className="flex gap-4 items-start">
-                    <div className="flex-1 text-slate-600 leading-relaxed space-y-4">
+                    <div className="flex-1 text-slate-600 dark:text-slate-300 leading-relaxed space-y-4">
                          {advice?.split('\n').map((line, i) => {
                              if (!line.trim()) return null;
                              const isBold = line.includes('**');
@@ -100,7 +101,7 @@ export const AIAdvisor: React.FC<AIAdvisorProps> = ({ transactions, context }) =
                                 )
                              }
                              return (
-                                 <p key={i} className={`m-0 ${isBold ? 'font-bold text-slate-800 text-base' : ''}`}>
+                                 <p key={i} className={`m-0 ${isBold ? 'font-bold text-slate-800 dark:text-white text-base' : ''}`}>
                                      {cleanLine}
                                  </p>
                              );
@@ -112,10 +113,10 @@ export const AIAdvisor: React.FC<AIAdvisorProps> = ({ transactions, context }) =
           </div>
           
           {!isLoading && (
-              <div className="p-4 bg-slate-50 border-t border-slate-100 flex justify-center">
+              <div className="p-4 bg-slate-50 dark:bg-slate-800 border-t border-slate-100 dark:border-slate-700 flex justify-center">
                   <button 
                     onClick={handleGetAdvice}
-                    className="text-violet-600 hover:text-violet-700 text-sm font-semibold hover:underline flex items-center gap-2"
+                    className="text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300 text-sm font-semibold hover:underline flex items-center gap-2"
                   >
                       <Sparkles size={14} />
                       Atualizar Análise
